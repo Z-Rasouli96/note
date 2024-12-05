@@ -3,20 +3,22 @@
     <img alt="Vue logo" class="image-note" src="../assets/note.png">
     <h1>{{ msg }}</h1>
     <div class="list">
-      <ul>
-        <li v-for="note in notes" :key="note.id" class="note-box">
+      
+        <div v-for="note in notes" :key="note.id" class="note-box">
           <div v-if="note.id === NoteId" class="update-form">
-            <button @click="updateNote(note.id)">Save</button>
-            <button @click="cancelEdit">Cancel</button>
-            <input v-model="currentNote.title" placeholder="Title" />
+            <div class="btn">
+              <button class="save-btn" @click="updateNote(note.id)">Save</button>
+              <button class="cancel-btn" @click="cancelEdit">Cancel</button>
+            </div>
+            <input v-model="currentNote.title" placeholder="Title" required/>
             <textarea v-model="currentNote.text" placeholder="Text"></textarea>
           </div>
           <div v-else @click="startEdit(note)">
             <h3>{{ note.title }}</h3>
             <p>{{ note.text }}</p>
           </div>
-        </li>
-      </ul>
+        </div>
+     
     </div>
   </div>
 </template>
@@ -42,6 +44,10 @@ export default {
   },
   methods: {
     async listNote() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      }
       try {
         const response = await axios.get('http://127.0.0.1:8000/api/note/list');
         this.notes = response.data.data;
@@ -93,12 +99,21 @@ a {
   width: 120px;
 }
 
+.list{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
 .note-box{
-  background-color: darkgrey;
+  background-color: rgba(223, 220, 154, 0.753);
   width: 200px;
   height: 200px;
   border-radius: 5px;
   box-shadow: 4px 4px;
+  margin-left: 5px;
+  overflow:auto;
+  margin: 5px;
 }
 .update-form{
   margin-top: 20px;
@@ -113,7 +128,28 @@ a {
   background-color: transparent;
   border: none;
   width: 170px;
+  height: 80px;
   padding: 5px 0;
   resize: none;
+  cursor:progress;
+}
+.btn{
+  margin: 0 5px;
+  display: flex;
+  justify-content: space-between;
+}
+.save-btn{
+  background-color: #008b4d;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  padding: 4px 8px;
+}
+.cancel-btn{
+  background-color: #d30101;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  padding: 4px 8px;
 }
 </style>

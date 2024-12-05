@@ -1,13 +1,14 @@
 <template>
-  <h1>create note</h1>
+  <h1>login</h1>
   <div class="main">
     <div class="form">
       <div class="form-box">
-        <input v-model="title" type="text" placeholder="Enter title" :required="test"/><br />
-        <input v-model="text" type="text" placeholder="Enter text" :required="test"/><br />
-        <button @click="insertNote()">Add Item</button>
+        <input v-model="email" type="email" placeholder="Enter email"/><br />
+        <input v-model="password" type="text" placeholder="Enter password"/><br />
+        <button @click="insertNote()">Login</button>
+        <router-link class="register-link" to="/register">Are you registered?</router-link>
       </div>
-      </div>
+    </div>
     
   </div>
 </template>
@@ -17,38 +18,37 @@
 import axios from 'axios';
 
 export default {
-  name: 'CreateNote',
+  name: 'loginApp',
   data(){
     return {
-      title:"",
-      text:""
+      email:"",
+      password:""
     }
   },
 
   mounted() {
-   this.auth();
+   
   },
   methods: {
-    auth(){
-      const token = localStorage.getItem('token');
-      if (token) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      }
-    },
     async insertNote(){
       let data = JSON.stringify({
-        title: this.title,
-        text:this.text,
-        user_id:5
+        email: this.email,
+        password:this.password
     });
 
+    console.log(data);
+    
+      
       try {
-        await axios.post('http://127.0.0.1:8000/api/note/insert',data,{
+        await axios.post('http://127.0.0.1:8000/api/login',data,{
           headers:{"Content-Type" : "application/json"}
         })
        .then((result) => {
-        console.log(result);
+        console.log(result.data);
+        localStorage.setItem('token',result.data.token);
+        localStorage.setItem('email',result.data.email);
         this.$router.push({name:'NotePage'})
+
         
         })
       } catch (error) {
@@ -97,10 +97,18 @@ a {
   width: 170px;
   padding: 5px 2px;
 }
+.form-box .register-link{
+  display: flex;
+  justify-content: start;
+  padding: 10px 5px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
 button{
   width: 180px;
   border-radius: 5px;
-  background-color: rgb(109, 148, 170);
+  background-color: rgb(61, 61, 228);
   color: #fff;
   border: none;
   padding: 5px 0;

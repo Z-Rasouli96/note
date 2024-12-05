@@ -1,13 +1,15 @@
 <template>
-  <h1>create note</h1>
+  <h1>Register</h1>
   <div class="main">
     <div class="form">
       <div class="form-box">
-        <input v-model="title" type="text" placeholder="Enter title" :required="test"/><br />
-        <input v-model="text" type="text" placeholder="Enter text" :required="test"/><br />
-        <button @click="insertNote()">Add Item</button>
+        <input v-model="name" type="text" placeholder="Enter name"/><br />
+        <input v-model="email" type="email" placeholder="Enter email"/><br />
+        <input v-model="password" type="text" placeholder="Enter password"/><br />
+        <input v-model="cPassword" type="text" placeholder="Enter c-password"/><br />
+        <button @click="insertNote()">register</button>
       </div>
-      </div>
+    </div>
     
   </div>
 </template>
@@ -17,38 +19,39 @@
 import axios from 'axios';
 
 export default {
-  name: 'CreateNote',
+  name: 'registerApp',
   data(){
     return {
-      title:"",
-      text:""
+      name:"",
+      email:"",
+      password:"",
+      cPassword:""
     }
   },
 
   mounted() {
-   this.auth();
+   
   },
   methods: {
-    auth(){
-      const token = localStorage.getItem('token');
-      if (token) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      }
-    },
     async insertNote(){
+      // const note = { title: "Vue POST Request Example"};
+     
       let data = JSON.stringify({
-        title: this.title,
-        text:this.text,
-        user_id:5
+        name: this.name,
+        email:this.email,
+        password:this.password
     });
 
+    console.log(data);
+    
+      
       try {
-        await axios.post('http://127.0.0.1:8000/api/note/insert',data,{
+        await axios.post('http://127.0.0.1:8000/api/register',data,{
           headers:{"Content-Type" : "application/json"}
         })
        .then((result) => {
         console.log(result);
-        this.$router.push({name:'NotePage'})
+        this.$router.push({name:'loginApp'})
         
         })
       } catch (error) {
@@ -100,7 +103,7 @@ a {
 button{
   width: 180px;
   border-radius: 5px;
-  background-color: rgb(109, 148, 170);
+  background-color: rgb(61, 61, 228);
   color: #fff;
   border: none;
   padding: 5px 0;

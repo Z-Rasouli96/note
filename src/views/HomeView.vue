@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <NotePage msg="Note App"/>
+    <loginApp msg="Note App"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import NotePage from '@/components/NotePage.vue'
+import loginApp from '@/components/LoginComponent.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    NotePage
+    loginApp
   }
 }
 </script>
