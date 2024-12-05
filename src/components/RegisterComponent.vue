@@ -34,8 +34,7 @@ export default {
   },
   methods: {
     async insertNote(){
-      // const note = { title: "Vue POST Request Example"};
-     
+
       let data = JSON.stringify({
         name: this.name,
         email:this.email,
@@ -51,6 +50,11 @@ export default {
         })
        .then((result) => {
         console.log(result);
+        this.$swal({
+          icon: 'success',
+          title: 'Register',
+          text: 'Your account register successfully.',
+        });
         this.$router.push({name:'loginApp'})
         
         })

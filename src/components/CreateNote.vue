@@ -16,6 +16,7 @@
 
 import axios from 'axios';
 
+
 export default {
   name: 'CreateNote',
   data(){
@@ -48,6 +49,13 @@ export default {
         })
        .then((result) => {
         console.log(result);
+        
+        this.$swal({
+          icon: 'success',
+          title: 'Note',
+          text: 'Your Note created successfully.',
+        });
+        
         this.$router.push({name:'NotePage'})
         
         })

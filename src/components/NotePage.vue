@@ -103,6 +103,7 @@ a {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  margin: 0 80px;
 }
 
 .note-box{
