@@ -1,7 +1,8 @@
 <template>
   <nav>
-    <router-link to="/">Note</router-link> |
-    <router-link to="/create-note">Create</router-link>
+    <router-link to="/notes">Note</router-link> |
+    <router-link to="/create-note">Create</router-link>|
+    <router-link to="/login">login</router-link>
   </nav>
   <router-view/>
 </template>
